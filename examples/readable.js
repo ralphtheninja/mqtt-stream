@@ -1,4 +1,4 @@
-const Mqtt = require('.')
+const Mqtt = require('../')
 const mqtt = Mqtt('tcp://localhost', { port: '1883' })
 
 mqtt.client.on('connect', function () {
