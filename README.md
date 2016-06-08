@@ -23,11 +23,19 @@ Wraps a [`mqtt.Client`](https://github.com/mqttjs/MQTT.js#client) and exposes it
 
 #### `const readable = mqtt.createReadStream(topic, [options])`
 
-Create a readable object stream that subscribes to `topic`. Parameters are passed on to [`mqtt.Client#subscribe`](https://github.com/mqttjs/MQTT.js#mqttclientsubscribetopictopic-arraytopic-object-options-callback).
+Creates a readable object stream that subscribes to `topic`. Parameters are passed on to [`mqtt.Client#subscribe`](https://github.com/mqttjs/MQTT.js#mqttclientsubscribetopictopic-arraytopic-object-options-callback).
 
 Stream data has `.topic`, `.payload` and `.package` properties, which correspond to the parameters in the [`'message'`](https://github.com/mqttjs/MQTT.js#event-message) event.
 
 Call `readable.destroy()` to end the stream.
+
+#### `const writable = mqtt.createWriteStream(topic, [options])`
+
+Creates a writable stream which publishes data to `topic`. Parameters are passed on to [`mqtt.Client#publish`](https://github.com/mqttjs/MQTT.js#publish).
+
+Data written to the stream will be stringified if it's not a `Buffer` nor a `String`.
+
+Note that it's only possible to set one `QoS` level for all messages.
 
 ### License
 MIT

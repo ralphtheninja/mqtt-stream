@@ -55,4 +55,8 @@ Mqtt.prototype.createReadStream = function (topic, options) {
   return rs
 }
 
+Mqtt.prototype.createWriteStream = function (topic, options) {
+
+}
+
 module.exports = Mqtt
