@@ -1,0 +1,24 @@
+{
+  "name": "mqtt-stream",
+  "version": "0.0.0",
+  "description": "Readable and writable mqtt streams",
+  "main": "index.js",
+  "dependencies": {
+    "mqtt": "^1.11.0",
+    "mqtt-match": "^1.0.0",
+    "vintage-streams": "^1.0.3"
+  },
+  "devDependencies": {
+    "standard": "^7.1.2",
+    "tape": "^4.5.1"
+  },
+  "scripts": {
+    "test": "tape test && standard"
+  },
+  "keywords": [
+    "mqtt",
+    "streams"
+  ],
+  "author": "Lars-Magnus Skog <ralphtheninja@riseup.net>",
+  "license": "MIT"
+}
