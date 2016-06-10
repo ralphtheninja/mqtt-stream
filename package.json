@@ -9,6 +9,7 @@
     "vintage-streams": "^1.0.3"
   },
   "devDependencies": {
+    "split2": "^2.1.0",
     "standard": "^7.1.2",
     "tape": "^4.5.1"
   },

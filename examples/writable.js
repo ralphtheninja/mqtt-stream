@@ -2,20 +2,15 @@ const Mqtt = require('../')
 const mqtt = Mqtt('tcp://localhost', { port: '1883' })
 const fs = require('fs')
 const path = require('path')
+const split = require('split2')
 
 mqtt.client.on('connect', function () {
-  const interval = setInterval(function () {
-    mqtt.client.subscribe('packages')
-    mqtt.client.on('message', function (topic, payload) {
-      console.log(payload.toString())
-    })
-  }, 2000)
-  setTimeout(function () {
-    stream.destroy()
-    clearInterval(interval)
-    mqtt.client.end()
-  }, 10000)
-})
+  mqtt.client.subscribe('data')
+  mqtt.client.on('message', function (topic, payload) {
+    console.log(payload.toString())
+  })
 
-const stream = mqtt.createWriteStream('packages')
-fs.createReadStream(path.resolve(__dirname, '../package.json')).pipe(stream)
+  const stream = mqtt.createWriteStream('data')
+  const data = path.join(__dirname, '/data.txt')
+  fs.createReadStream(data, 'utf-8').pipe(split()).pipe(stream)
+})
