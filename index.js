@@ -15,28 +15,28 @@ function Mqtt (url, options) {
 Mqtt.prototype.createReadStream = function (topic, options) {
   const client = this.client
 
-  const rs = streams.Readable({
+  const readable = streams.Readable({
     read: function (cb) {
       client.subscribe(topic, options, function (err) {
-        if (err) rs.emit('error', err)
+        if (err) readable.emit('error', err)
       })
 
       client.on('message', onMessage)
 
       client.once('error', function (err) {
         client.removeListener('message', onMessage)
-        rs.emit('error', err)
+        readable.emit('error', err)
       })
     },
     destroy: function () {
       client.removeListener('message', onMessage)
-      rs.emit('end')
+      readable.emit('end')
     }
   })
 
   const onMessage = function (t, payload, packet) {
     if (matchesTopic(topic, t) === true) {
-      rs.push({ topic: t, payload: payload, packet: packet })
+      readable.push({ topic: t, payload: payload, packet: packet })
     }
   }
 
@@ -52,11 +52,25 @@ Mqtt.prototype.createReadStream = function (topic, options) {
     }
   }
 
-  return rs
+  return readable
 }
 
 Mqtt.prototype.createWriteStream = function (topic, options) {
+  const client = this.client
 
+  const writable = streams.Writable({
+    write: function (data, cb) {
+      if (!Buffer.isBuffer(data) && typeof data !== 'string') {
+        data = JSON.stringify(data)
+      }
+      client.publish(topic, data, options, function (err) {
+        if (err) return writable.emit('error', err)
+        cb()
+      })
+    }
+  })
+
+  return writable
 }
 
 module.exports = Mqtt
