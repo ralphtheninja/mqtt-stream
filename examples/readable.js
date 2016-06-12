@@ -6,12 +6,12 @@ mqtt.client.on('connect', function () {
     const rnd = Math.random()
     mqtt.client.publish('foo/' + rnd, 'foobar')
     mqtt.client.publish('bar/' + rnd + '/foo/' + rnd, 'bar123fooabc')
-  }, 2000)
+  }, 100)
   setTimeout(function () {
     stream.destroy()
     clearInterval(interval)
     mqtt.client.end()
-  }, 10000)
+  }, 3000)
 })
 
 const stream = mqtt.createReadStream([ 'foo/+', 'bar/+/foo/+' ])
